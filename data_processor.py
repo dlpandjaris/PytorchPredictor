@@ -35,7 +35,7 @@ class Data_Processor:
             #     break
         return(df_list)
     
-    def generate_X_columns(self, df_list):
+    def generate_X_columns(self, df_list) -> List[str]:
         """Returns column list with duplicates for each day of knowledge"""
         starter_columns = df_list[0].columns
         return ["{}-{}".format(column, i) for column in starter_columns for i in range(1, self.days_knowledge+1)]
