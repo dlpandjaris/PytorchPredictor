@@ -56,11 +56,11 @@ class Data_Processor:
     
     def generate_Y_data(self) -> pd.DataFrame:
         """Slices Close Column of raw data and cuts off edge days"""
-        return self.raw_data.Close.iloc[1:]
+        return self.raw_data.Close.iloc[:]
     
     def write_test_train_csv(self):
         """Generates csv file given a data frame"""
-        final_df = self.X_data.copy().iloc[1:]
+        final_df = self.X_data.copy()
         print(len(final_df), len(self.Y_data))
         final_df["Close-0"] = self.Y_data
         final_df.to_csv("{}_test_train_data.csv".format(self.ticker), index=False)
