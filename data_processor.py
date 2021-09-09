@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from dataclasses import dataclass
 from typing import List
 
@@ -12,7 +13,7 @@ class Data_Processor:
         self.X_data: pd.DataFrame = self.generate_X_data()
         self.Y_data: pd.DataFrame() = self.generate_Y_data()
         self.final_df : pd.DataFrame() = self.join_data()
-        self.add_profit_column()
+        self.add_profit_columns()
         self.write_test_train_csv()
     
     def read_raw_data(self) -> pd.DataFrame:
@@ -66,9 +67,10 @@ class Data_Processor:
         data["Close-0"] = self.Y_data
         return data
 
-    def add_profit_column(self):
+    def add_profit_columns(self):
         """Makes percentage change column"""
         self.final_df["Profit"] = (self.final_df["Close-0"] / self.final_df["Close-1"]) - 1
+        self.final_df["Profit-Bool"] = np.where(self.final_df["Profit"] > 0, "profit", "loss")
     
     def write_test_train_csv(self):
         """Generates csv file given a data frame"""
@@ -76,7 +78,7 @@ class Data_Processor:
 
 
 def main():
-    data = Data_Processor("AMD", 30)
+    data = Data_Processor("AMD", 3)
     print(data.raw_data.iloc[-1])
     print(data.X_data)
 
