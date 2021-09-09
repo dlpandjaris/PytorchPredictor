@@ -11,6 +11,8 @@ class Data_Processor:
         self.raw_data: pd.DataFrame = self.read_raw_data()
         self.X_data: pd.DataFrame = self.generate_X_data()
         self.Y_data: pd.DataFrame() = self.generate_Y_data()
+        self.final_df : pd.DataFrame() = self.join_data()
+        self.add_profit_column()
         self.write_test_train_csv()
     
     def read_raw_data(self) -> pd.DataFrame:
@@ -56,14 +58,21 @@ class Data_Processor:
     
     def generate_Y_data(self) -> pd.DataFrame:
         """Slices Close Column of raw data and cuts off edge days"""
-        return self.raw_data.Close.iloc[:]
+        return self.raw_data.Close.iloc[:-self.days_knowledge]
+        
+    def join_data(self) -> pd.DataFrame():
+        """Joins X data and Y data"""
+        data = self.X_data.copy()
+        data["Close-0"] = self.Y_data
+        return data
+
+    def add_profit_column(self):
+        """Makes percentage change column"""
+        self.final_df["Profit"] = (self.final_df["Close-0"] / self.final_df["Close-1"]) - 1
     
     def write_test_train_csv(self):
         """Generates csv file given a data frame"""
-        final_df = self.X_data.copy()
-        print(len(final_df), len(self.Y_data))
-        final_df["Close-0"] = self.Y_data
-        final_df.to_csv("{}_test_train_data.csv".format(self.ticker), index=False)
+        self.final_df.to_csv("{}_test_train_data.csv".format(self.ticker), index=False)
 
 
 def main():
