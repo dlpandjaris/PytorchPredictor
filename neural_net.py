@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 import torch.optim as optim
 
 ticker: str = "AMD"
-data = pd.read_csv("{}_test_train_data.csv".format(ticker))
+data = pd.read_csv("Data/{}_test_train_data.csv".format(ticker))
 
 X = data.iloc[:,:-3]
 y = data["Profit-Bool"] #.iloc[:,-3:]

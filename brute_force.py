@@ -10,14 +10,17 @@ class Brute_Force:
         
     def do_it(self):
         self.results = {}
-        for i in range(3, 181):
+        for i in range(3, 6):
             Data_Processor(self.ticker, i)
             lr = Linear_Regression(self.ticker)
-            self.results[i] = lr.test_score
-            
+            self.results[i] = (lr.train_score, lr.test_score, lr.accuracy)
+            print(i)
+    
     def show_results(self):
-        self.sorted_results = dict(sorted(self.results.items(), key= lambda x:x[1]))
-        print(self.sorted_results)
+        self.sorted_results = dict(sorted(self.results.items(), key= lambda x:x[-1]))
+        print("Train R2, Test R2, Accuracy")
+        for result in self.results.items():
+            print(result)
 
 if __name__ == '__main__':
     Brute_Force("AMD")

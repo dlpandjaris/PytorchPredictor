@@ -21,7 +21,7 @@ class Data_Getter:
     
     def save_to_file(self):
         """Saves raw data to csv file"""
-        self.raw_data.to_csv("{}_raw_data.csv".format(self.ticker))
+        self.raw_data.to_csv("Data/{}_raw_data.csv".format(self.ticker))
 
 def main():
     data = Data_Getter("AMD")

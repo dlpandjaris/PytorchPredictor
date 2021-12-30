@@ -6,7 +6,7 @@ from sklearn.linear_model import LinearRegression
 class Linear_Regression:
     def __init__(self, ticker: str):
         self.ticker = ticker
-        self.df = pd.read_csv("{}_test_train_data.csv".format(ticker))
+        self.df = pd.read_csv("Data/{}_test_train_data.csv".format(ticker))
         self.preprocess()
         self.train()
         self.rate()
@@ -22,7 +22,15 @@ class Linear_Regression:
         
     def rate(self):
         self.train_score = self.lr.score(self.X_train, self.y_train)
-        self.test_score = self.lr.score(self.X_test, self.y_test)        
+        self.test_score = self.lr.score(self.X_test, self.y_test)
+        self.y_pred = self.lr.predict(self.X_test)
+        correct = 0
+        for actual, expected in list(zip(self.y_test, self.y_pred)):
+            if actual > 0 and expected > 0:
+                correct += 1
+            elif actual < 0 and expected < 0:
+                correct += 1
+        self.accuracy = correct / len(self.y_test)
 
 if __name__ == "__main__":
     Linear_Regression("AMD")
