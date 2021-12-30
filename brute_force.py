@@ -1,26 +1,30 @@
 from data_processor import Data_Processor
 from linear_regression import Linear_Regression
+import pandas as pd
 
 
 class Brute_Force:
     def __init__(self, ticker: str):
         self.ticker = ticker
-        self.do_it()
-        self.show_results()
+        self.linear_regression()
         
-    def do_it(self):
-        self.results = {}
-        for i in range(3, 6):
+    def linear_regression(self):
+        self.results = {"Days Knowledge": [], "Train R2": [], "Test R2": [], "Profit": [], "Accuracy": []}
+        for i in range(3, 181):
             Data_Processor(self.ticker, i)
             lr = Linear_Regression(self.ticker)
-            self.results[i] = (lr.train_score, lr.test_score, lr.accuracy)
+            self.results["Days Knowledge"].append(i)
+            self.results["Train R2"].append(lr.train_score)
+            self.results["Test R2"].append(lr.test_score)
+            self.results["Profit"].append(lr.profit)
+            self.results["Accuracy"].append(lr.accuracy)
+            self.save_results("Linear Regression")
             print(i)
     
-    def show_results(self):
-        self.sorted_results = dict(sorted(self.results.items(), key= lambda x:x[-1]))
-        print("Train R2, Test R2, Accuracy")
-        for result in self.results.items():
-            print(result)
+    def save_results(self, sheet_name):
+        df = pd.DataFrame(self.results)
+        df = df.sort_values(by = ["Accuracy"], ascending=False)
+        df.to_excel("Data/{}_results.xlsx".format(self.ticker), sheet_name = sheet_name, index = False)
 
 if __name__ == '__main__':
     Brute_Force("AMD")
