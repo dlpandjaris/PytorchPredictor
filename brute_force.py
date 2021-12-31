@@ -12,7 +12,7 @@ class Brute_Force:
     def linear_regression(self):
         self.results = {"Days Knowledge": [], "Train R2": [], "Test R2": [], "Profit": [], "Accuracy": []}
         Data_Getter(self.ticker)
-        for i in range(3, 181):
+        for i in range(3, 6):
             Data_Processor(self.ticker, i)
             lr = Linear_Regression(self.ticker)
             self.results["Days Knowledge"].append(i)
@@ -26,7 +26,7 @@ class Brute_Force:
     def save_results(self, sheet_name):
         df = pd.DataFrame(self.results)
         df = df.sort_values(by = ["Accuracy"], ascending=False)
-        df.to_excel("Data/{}_results.xlsx".format(self.ticker), sheet_name = sheet_name, index = False)
+        df.to_excel("Data/{}/{}_results.xlsx".format(self.ticker, self.ticker), sheet_name = sheet_name, index = False)
 
 if __name__ == '__main__':
     Brute_Force("AMD")

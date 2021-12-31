@@ -1,5 +1,6 @@
 import pandas_datareader as pdr
 from datetime import datetime
+import os
 
 class Data_Getter:
     def __init__(self, ticker: str):
@@ -21,7 +22,9 @@ class Data_Getter:
     
     def save_to_file(self):
         """Saves raw data to csv file"""
-        self.raw_data.to_csv("Data/{}_raw_data.csv".format(self.ticker))
+        if os.path.exists("Data/{}".format(self.ticker)) == False:
+            os.mkdir("Data/{}".format(self.ticker))
+        self.raw_data.to_csv("Data/{}/{}_raw_data.csv".format(self.ticker, self.ticker))
 
 def main():
     data = Data_Getter("AMD")

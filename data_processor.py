@@ -18,7 +18,7 @@ class Data_Processor:
     
     def read_raw_data(self) -> pd.DataFrame:
         """Records raw data from csv file"""
-        data = pd.read_csv("Data/{}".format(self.filename))
+        data = pd.read_csv("Data/{}/{}".format(self.ticker, self.filename))
         return(data)
         
     def chop_X_data(self) -> List[pd.DataFrame]:
@@ -74,7 +74,7 @@ class Data_Processor:
     
     def write_test_train_csv(self):
         """Generates csv file given a data frame"""
-        self.final_df.to_csv("Data/{}_test_train_data.csv".format(self.ticker), index=False)
+        self.final_df.to_csv("Data/{}/{}_test_train_data.csv".format(self.ticker, self.ticker), index=False)
 
 
 def main():

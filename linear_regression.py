@@ -6,7 +6,7 @@ from sklearn.linear_model import LinearRegression
 class Linear_Regression:
     def __init__(self, ticker: str):
         self.ticker = ticker
-        self.df = pd.read_csv("Data/{}_test_train_data.csv".format(ticker))
+        self.df = pd.read_csv("Data/{}/{}_test_train_data.csv".format(ticker, ticker))
         self.preprocess()
         self.train()
         self.rate()
