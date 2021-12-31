@@ -78,7 +78,7 @@ class Data_Processor:
 
 
 def main():
-    data = Data_Processor("AMD", 3)
+    data = Data_Processor("AMD", 10)
     print(data.raw_data.iloc[-1])
     print(data.X_data)
 

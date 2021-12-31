@@ -1,5 +1,6 @@
 from data_processor import Data_Processor
 from linear_regression import Linear_Regression
+from initial_data_extraction import Data_Getter
 import pandas as pd
 
 
@@ -10,6 +11,7 @@ class Brute_Force:
         
     def linear_regression(self):
         self.results = {"Days Knowledge": [], "Train R2": [], "Test R2": [], "Profit": [], "Accuracy": []}
+        Data_Getter(self.ticker)
         for i in range(3, 181):
             Data_Processor(self.ticker, i)
             lr = Linear_Regression(self.ticker)
